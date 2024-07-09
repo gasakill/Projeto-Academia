@@ -1,7 +1,7 @@
 package br.edu.ifpe.apoo.excecoes;
 
-public class ExcecaoClienteNaoCadastrado extends ExcecaoNegocio {
-    public ExcecaoClienteNaoCadastrado(String message) {
-        super(message);
+public class ExcecaoClienteNaoCadastrado extends Exception {
+    public ExcecaoClienteNaoCadastrado(String mensagem) {
+        super(mensagem);
     }
 }

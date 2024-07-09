@@ -2,25 +2,49 @@ package br.edu.ifpe.apoo.persistencia;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class GenericDAO<T> {
-    private List<T> lista = new ArrayList<>();
+import br.edu.ifpe.apoo.entidades.Cliente;
 
-    public void inserir(T obj) {
-        lista.add(obj);
+public class GenericDAO<T> implements DAO<T> {
+
+    private List<T> elementos = new ArrayList<>();
+
+    @Override
+    public void adicionar(T elemento) {
+        elementos.add(elemento);
+        System.out.println("Elemento adicionado.");
     }
 
-    public boolean remover(T obj) {
-        return lista.remove(obj);
+    @Override
+    public void remover(T elemento) {
+        elementos.remove(elemento);
+        System.out.println("Elemento removido.");
     }
 
-    public Optional<T> buscarPorNome(String nome, java.util.function.Function<T, String> nomeFunc) {
-        return lista.stream().filter(obj -> nomeFunc.apply(obj).equalsIgnoreCase(nome)).findFirst();
+    @Override
+    public void atualizar(T elemento) {
+        int index = elementos.indexOf(elemento);
+        if (index != -1) {
+            elementos.set(index, elemento);
+            System.out.println("Elemento atualizado.");
+        }
     }
 
-    public void atualizar(T obj, java.util.function.Predicate<T> predicado, java.util.function.Consumer<T> atualizador) {
-        lista.stream().filter(predicado).findFirst().ifPresent(atualizador);
+    @Override
+    public T consultarPorNome(String nome) {
+        for (T elemento : elementos) {
+            if (elemento instanceof Cliente) {
+                Cliente cliente = (Cliente) elemento;
+                if (cliente.getNome().equalsIgnoreCase(nome)) {
+                    return elemento;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<T> listarTodos() {
+        return new ArrayList<>(elementos);
     }
 }
