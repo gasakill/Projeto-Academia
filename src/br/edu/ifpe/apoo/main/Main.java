@@ -4,6 +4,7 @@ import br.edu.ifpe.apoo.apresentacao.TelaCliente;
 
 public class Main {
     public static void main(String[] args) {
-        new TelaCliente().exibirMenu();
+        TelaCliente telaCliente = new TelaCliente();
+        telaCliente.exibirMenu();
     }
 }

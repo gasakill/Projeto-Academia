@@ -1,14 +1,23 @@
 package br.edu.ifpe.apoo.entidades;
 
 public class Cliente {
+    private static int contadorId = 0;
+    private int id;
     private String nome;
     private String sexo;
     private int idade;
+    private String cpf;
 
-    public Cliente(String nome, String sexo, int idade) {
+    public Cliente(String nome, String sexo, int idade, String cpf) {
+        this.id = ++contadorId;
         this.nome = nome;
         this.sexo = sexo;
         this.idade = idade;
+        this.cpf = cpf;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNome() {
@@ -35,12 +44,22 @@ public class Cliente {
         this.idade = idade;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", sexo='" + sexo + '\'' +
                 ", idade=" + idade +
+                ", cpf='" + cpf + '\'' +
                 '}';
     }
 }

@@ -2,7 +2,6 @@ package br.edu.ifpe.apoo.persistencia;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import br.edu.ifpe.apoo.entidades.Cliente;
 
 public class GenericDAO<T> implements DAO<T> {

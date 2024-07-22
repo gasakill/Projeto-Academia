@@ -1,7 +1,9 @@
 package br.edu.ifpe.apoo.apresentacao;
 
 import br.edu.ifpe.apoo.entidades.Cliente;
+import br.edu.ifpe.apoo.excecoes.ExcecaoSexoInvalido;
 import br.edu.ifpe.apoo.negocio.ControladorCliente;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -28,11 +30,11 @@ public class TelaCliente {
 
             try {
                 opcao = scanner.nextInt();
-                scanner.nextLine(); 
+                scanner.nextLine(); // Limpar o buffer de entrada
                 processarOpcao(opcao);
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida! Por favor, digite um número.");
-                scanner.nextLine(); 
+                scanner.nextLine(); // Limpar o buffer de entrada
             }
         } while (opcao != 5);
     }
@@ -60,16 +62,22 @@ public class TelaCliente {
     }
 
     private void adicionarCliente() {
-        System.out.print("Nome do cliente: ");
-        String nome = scanner.nextLine();
-        System.out.print("Sexo do cliente: ");
-        String sexo = scanner.nextLine();
-        System.out.print("Idade do cliente: ");
-        int idade = scanner.nextInt();
-        scanner.nextLine(); 
+        try {
+            System.out.print("Nome do cliente: ");
+            String nome = scanner.nextLine();
+            System.out.print("Sexo do cliente (masculino/feminino): ");
+            String sexo = scanner.nextLine();
+            System.out.print("Idade do cliente: ");
+            int idade = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer de entrada
+            System.out.print("CPF do cliente: ");
+            String cpf = scanner.nextLine();
 
-        Cliente cliente = new Cliente(nome, sexo, idade);
-        controladorCliente.adicionarCliente(cliente);
+            Cliente cliente = new Cliente(nome, sexo, idade, cpf);
+            controladorCliente.adicionarCliente(cliente);
+        } catch (ExcecaoSexoInvalido e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void removerCliente() {
@@ -85,25 +93,32 @@ public class TelaCliente {
     }
 
     private void atualizarCliente() {
-        System.out.print("Nome do cliente a atualizar: ");
-        String nome = scanner.nextLine();
+        try {
+            System.out.print("Nome do cliente a atualizar: ");
+            String nome = scanner.nextLine();
 
-        Cliente cliente = controladorCliente.consultarClientePorNome(nome);
-        if (cliente != null) {
-            System.out.print("Novo nome do cliente: ");
-            String novoNome = scanner.nextLine();
-            System.out.print("Novo sexo do cliente: ");
-            String novoSexo = scanner.nextLine();
-            System.out.print("Nova idade do cliente: ");
-            int novaIdade = scanner.nextInt();
-            scanner.nextLine(); 
+            Cliente cliente = controladorCliente.consultarClientePorNome(nome);
+            if (cliente != null) {
+                System.out.print("Novo nome do cliente: ");
+                String novoNome = scanner.nextLine();
+                System.out.print("Novo sexo do cliente (masculino/feminino): ");
+                String novoSexo = scanner.nextLine();
+                System.out.print("Nova idade do cliente: ");
+                int novaIdade = scanner.nextInt();
+                scanner.nextLine(); // Limpar o buffer de entrada
+                System.out.print("Novo CPF do cliente: ");
+                String novoCpf = scanner.nextLine();
 
-            cliente.setNome(novoNome);
-            cliente.setSexo(novoSexo);
-            cliente.setIdade(novaIdade);
-            controladorCliente.atualizarCliente(cliente);
-        } else {
-            System.out.println("Cliente não encontrado.");
+                cliente.setNome(novoNome);
+                cliente.setSexo(novoSexo);
+                cliente.setIdade(novaIdade);
+                cliente.setCpf(novoCpf);
+                controladorCliente.atualizarCliente(cliente);
+            } else {
+                System.out.println("Cliente não encontrado.");
+            }
+        } catch (ExcecaoSexoInvalido e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -119,3 +134,4 @@ public class TelaCliente {
         }
     }
 }
+
